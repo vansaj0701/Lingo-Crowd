@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <div class="request-form">
+        <form action="/requests" method="POST">
+            <h1>Request Translation</h1>
+
+            <input id="title" type="text" name="title" placeholder="Title" required />
+
+            <textarea id="content" name="content" placeholder="Content here..." required></textarea>
+
+            <select id="language-detected" name="language" required>
+                <option value="" disabled selected>Language</option>
+                {% for language in languages %}
+                    <option value={{ language }}>{{ language }}</option>
+                {% endfor %}
+            </select>
+
+            <select id="translate-to" name="translate-to">
+                <option value="" disabled selected>Translate to</option>
+                {% for language in languages %}
+                    <option value={{ language }}>{{ language }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+{% endblock %}

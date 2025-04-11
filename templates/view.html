@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <div class="view-container">
+        <div class="view-head">
+            <h2>{{ title }}</h2>
+            <div class="language-translate">
+                <p><b>Language</b> {{ language }}</p>
+                <p><b>Translate to</b> {{ translate_to }}</p>
+            </div>
+        </div>
+        <div class="view-detail">
+            <p>{{ content }}</p>
+        </div>
+
+        <form action="{{ url_for('view', search_id=search_id) }}" method="POST" class="your-contribution">
+            <h3>Make your own contribution</h3>
+            <select id="translate" name="contribution-language" required>
+                <option value="" disabled selected>Translate to</option>
+                {% for language in languages %}
+                    <option value="{{ language }}">{{ language }}</option>
+                {% endfor %}
+            </select>
+            <textarea id="add-contribution" name="add-contribution" placeholder="Your translation" required></textarea>
+            <button type="submit" class="btn btn-primary rounded-pill">Submit</button>
+        </form>
+
+        <div class="contribute">
+            <div class="contribute-count">
+                <h3>{{ total_contributions }} Contributions</h3>
+            </div>
+            {% for c in contribution_list %}
+                <div class="contributions">
+                    <p class="contributions-content">{{ c[1] }}</p>
+                    <div class="votings">
+                        <p><b>Language:</b> {{ c[2] }}</p>
+
+                        <form method="POST" action="{{ url_for('view', search_id=search_id) }}">
+                            <input type="hidden" name="contribution-id" value="{{ c[0] }}">
+                            <input type="hidden" name="vote-type" value="up">
+                            <p>
+                                {{ c[3] }}
+                                <button type="submit" class="up-vote">
+                                    <img src="{{ url_for('static', filename='vote_symbol.png') }}" alt="up vote">
+                                </button>
+                            </p>
+                        </form>
+
+                        <form method="POST" action="{{ url_for('view', search_id=search_id) }}">
+                            <input type="hidden" name="contribution-id" value="{{ c[0] }}">
+                            <input type="hidden" name="vote-type" value="down">
+                            <p>
+                                {{ c[4] }}
+                                <button type="submit" class="down-vote">
+                                    <img src="{{ url_for('static', filename='vote_symbol.png') }}" alt="down vote">
+                                </button>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

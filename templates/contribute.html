@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <form action="/contribute" method="POST" class="form-floating filter">
+        <select id="language" name="language">
+            <option value="" disabled selected>Language</option>
+            {% for language in languages %}
+                <option value="{{ language }}">{{ language }}</option>
+            {% endfor %}
+        </select>
+
+        <select id="translate" name="translate-to">
+            <option value="" disabled selected>Translate to</option>
+            {% for language in languages %}
+                <option value="{{ language }}">{{ language }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="text" name="search-id" placeholder="Search by ID">
+
+        <button type="submit" class="btn btn-primary rounded-pill">Filter</button>
+    </form>
+
+    <div class="display">
+        {% if result %}
+            {% for data in result %}
+                <div class="card">
+                    <h2>{{ result[data][0] }}</h2>
+                    <p>{{ result[data][1] }}</p>
+                    <a href="{{ url_for('view', search_id=data) }}">
+                        <button type="button" class="btn btn-primary">View</button>
+                    </a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="no-translation">No translations found for the selected filter.</p>
+        {% endif %}
+    </div>
+{% endblock %}
