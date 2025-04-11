@@ -171,3 +171,6 @@ def view(search_id):
                            total_contributions=len(result),
                            search_id=search_id
                            )
+
+if __name__ == "__main__":
+    app.run(debug=True, host='0.0.0.0', port=5000)
